@@ -40,7 +40,7 @@
         .btn {
             position: absolute;
             padding: 12px 30px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             background-color: #ffffff;
             color: #333333;
@@ -69,7 +69,7 @@
             position: static;
         }
 
-        /* --- 修正 1：第一頁 PLAY 按鈕調整為 57% --- */
+        /* --- 第一頁 PLAY 按鈕 --- */
         #page1 .play-btn {
             left: 50%;
             top: 57%; 
@@ -96,29 +96,25 @@
             color: transparent;       
         }
 
-        /* --- 修正 2：第三頁開心與難過按鈕調整為 10% --- */
-        /* 左上：開心 */
+        /* 第三頁開心與難過按鈕 (10%) */
         .btn-happy {
             left: 17%;
             top: 10%; 
             width: 30%;
             height: 30%;
         }
-        /* 右上：難過 */
         .btn-sad {
             right: 17%;
             top: 10%; 
             width: 30%;
             height: 30%;
         }
-        /* 左下：生氣 */
         .btn-angry {
             left: 17%;
             top: 55%;
             width: 30%;
             height: 30%;
         }
-        /* 右下：隨機 */
         .btn-random {
             right: 17%;
             top: 55%;
@@ -126,7 +122,7 @@
             height: 30%;
         }
 
-        /* --- 修正 3：第四頁與第五頁文字基礎樣式與個別定位 --- */
+        /* --- 第四頁與第五頁文字基礎樣式與個別定位 --- */
         .text-overlay {
             position: absolute;
             width: 50%;
@@ -139,16 +135,16 @@
             color: #333;
         }
         
-        /* 🎯 第四頁文字位置設定（可單獨修改） */
+        /* 🎯 第四頁文字位置設定 */
         .p4-text-position {
-            top: 20%;   /* 距離頂部 */
-            left: 45%;  /* 距離左邊 */
+            top: 25%;   
+            left: 45%;  
         }
 
-        /* 🎯 第五頁文字位置設定（可單獨修改） */
+        /* 🎯 第五頁文字位置設定 */
         .p5-text-position {
-            top: 8%;   /* 距離頂部 */
-            left: 25%;  /* 距離左邊 */
+            top: 10%;   
+            left: 25%;  
         }
 
         .song-title {
@@ -162,7 +158,7 @@
             margin-bottom: 20px;
         }
         .story-text {
-            font-size: 25px;
+            font-size: 20px;
             line-height: 1.6;
             white-space: pre-line;
         }
@@ -170,16 +166,19 @@
 </head>
 <body>
 
+    <!-- ================= 第一頁 ================= -->
     <div id="page1" class="page-container active" style="background-image: url('p1.png');">
         <button class="btn play-btn" onclick="goToPage('page2')">PLAY</button>
     </div>
 
+    <!-- ================= 第二頁 ================= -->
     <div id="page2" class="page-container" style="background-image: url('p2.png');">
         <div class="bottom-right-btns">
             <button class="btn" onclick="goToPage('page3')">SKIP</button>
         </div>
     </div>
 
+    <!-- ================= 第三頁 ================= -->
     <div id="page3" class="page-container" style="background-image: url('p3.png');">
         <div class="emotion-area">
             <button class="emotion-btn btn-happy" onclick="pickSong('happy')">開心</button>
@@ -192,16 +191,19 @@
         </div>
     </div>
 
+    <!-- ================= 第四頁 ================= -->
     <div id="page4" class="page-container" style="background-image: url('p4.png');">
         <div class="text-overlay p4-text-position">
             <div id="p4-title" class="song-title">歌名</div>
             <div id="p4-artist" class="song-artist">歌手</div>
         </div>
         <div class="bottom-right-btns">
+            <button class="btn" onclick="goToPage('page3')">上一頁</button>
             <button class="btn" onclick="goToPage('page5')">下一頁</button>
         </div>
     </div>
 
+    <!-- ================= 第五頁 ================= -->
     <div id="page5" class="page-container" style="background-image: url('p5.png');">
         <div class="text-overlay p5-text-position">
             <div id="p5-story" class="story-text">這裡是這首歌對應的感性文字內容...</div>
@@ -212,24 +214,35 @@
         </div>
     </div>
 
+    <!-- 🎵 音樂播放器元件 (隱藏，僅用來播放音訊) -->
+    <audio id="bg-music"></audio>
+
+    <!-- ================= JavaScript 邏輯控制 ================= -->
     <script>
-        // 🎵 歌曲資料庫（可以自由修改這裡的文字、歌名、歌手）
+        // 🎵 歌曲資料庫（包含每首歌對應的 mp3 檔名）
         const songDatabase = [
-            { id: 1, category: 'happy', title: '開心歌曲 1', artist: '歌手 A', story: '聽到這首歌，是不是讓你嘴角不自覺上揚呢？今天也是美好的一天！' },
-            { id: 2, category: 'happy', title: '開心歌曲 2', artist: '歌手 B', story: '把煩惱都拋開，跟著這個節奏一起搖擺吧！' },
-            { id: 3, category: 'sad',   title: '難過歌曲 3', artist: '歌手 C', story: '想哭的時候就哭出來吧，這首歌會陪著你慢慢復原。' },
-            { id: 4, category: 'sad',   title: '難過歌曲 4', artist: '歌手 D', story: '文字無法言說的痛，就讓旋律幫你說出來。內耗也沒關係的。' },
-            { id: 5, category: 'angry', title: '生氣歌曲 5', artist: '歌手 E', story: '把所有的不爽跟著重低音一起釋放出去吧！' },
-            { id: 6, category: 'angry', title: '生氣歌曲 6', artist: '歌手 F', story: '撕開那些虛偽，這首歌就是你最強的宣洩出口。' }
+            { id: 1, category: 'happy', title: '開心歌曲 1', artist: '歌手 A', story: '聽到這首歌，是不是讓你嘴角不自覺上揚呢？今天也是美好的一天！', audio: 'happy1.mp3' },
+            { id: 2, category: 'happy', title: '開心歌曲 2', artist: '歌手 B', story: '把煩惱都拋開，跟著這個節奏一起搖擺吧！', audio: 'happy2.mp3' },
+            { id: 3, category: 'sad',   title: '難過歌曲 3', artist: '歌手 C', story: '想哭的時候就哭出來吧，這首歌會陪著你慢慢復原。', audio: 'sad1.mp3' },
+            { id: 4, category: 'sad',   title: '難過歌曲 4', artist: '歌手 D', story: '文字無法言說的痛，就讓旋律幫你說出來。內耗也沒關係的。', audio: 'sad2.mp3' },
+            { id: 5, category: 'angry', title: '生氣歌曲 5', artist: '歌手 E', story: '把所有的不爽跟著重低音一起釋放出去吧！', audio: 'angry1.mp3' },
+            { id: 6, category: 'angry', title: '生氣歌曲 6', artist: '歌手 F', story: '撕開那些虛偽，這首歌就是你最強的宣洩出口。', audio: 'angry2.mp3' }
         ];
 
         let currentSong = null;
+        const audioElement = document.getElementById('bg-music');
 
         function goToPage(pageId) {
             document.querySelectorAll('.page-container').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById(pageId).classList.add('active');
+
+            // 💡 如果離開了播放頁面（返回 page1、page2 或 page3），停止播放音樂
+            if (pageId === 'page1' || pageId === 'page2' || pageId === 'page3') {
+                audioElement.pause();
+                audioElement.currentTime = 0; // 重置音樂播放時間到開頭
+            }
         }
 
         function pickSong(emotion) {
@@ -245,9 +258,16 @@
                 const randomIndex = Math.floor(Math.random() * filteredSongs.length);
                 currentSong = filteredSongs[randomIndex];
 
+                // 更新頁面文字
                 document.getElementById('p4-title').innerText = currentSong.title;
                 document.getElementById('p4-artist').innerText = currentSong.artist;
                 document.getElementById('p5-story').innerText = currentSong.story;
+
+                // 🎵 載入音樂並自動播放
+                audioElement.src = currentSong.audio;
+                audioElement.play().catch(error => {
+                    console.log("自動播放被瀏覽器阻擋或找不到檔案:", error);
+                });
 
                 goToPage('page4');
             }
