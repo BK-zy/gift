@@ -214,7 +214,10 @@
         </div>
     </div>
 
-    <!-- 🎵 音樂播放器元件 (隱藏，僅用來播放音訊) -->
+    <!-- 🎵 全站背景音樂（前三頁重複播放，可自行替換檔名 bgm.mp3） -->
+    <audio id="bgm-music" src="bgm.mp3" loop></audio>
+
+    <!-- 🎵 單曲音樂播放器 (第四、五頁播放歌曲) -->
     <audio id="bg-music"></audio>
 
     <!-- ================= JavaScript 邏輯控制 ================= -->
@@ -231,6 +234,10 @@
 
         let currentSong = null;
         const audioElement = document.getElementById('bg-music');
+        const bgmElement = document.getElementById('bgm-music');
+
+        // 設定背景音樂音量為 0.2 (20% 小音量)
+        bgmElement.volume = 0.2;
 
         function goToPage(pageId) {
             document.querySelectorAll('.page-container').forEach(page => {
@@ -238,10 +245,21 @@
             });
             document.getElementById(pageId).classList.add('active');
 
-            // 💡 如果離開了播放頁面（返回 page1、page2 或 page3），停止播放音樂
+            // 💡 頁面切換音訊處理邏輯
             if (pageId === 'page1' || pageId === 'page2' || pageId === 'page3') {
+                // 1. 停止播放第四、五頁的單曲
                 audioElement.pause();
-                audioElement.currentTime = 0; // 重置音樂播放時間到開頭
+                audioElement.currentTime = 0;
+
+                // 2. 播放/繼續播放背景音樂 (只會在暫停狀態時觸發播放，不會每次開頭重放)
+                if (bgmElement.paused) {
+                    bgmElement.play().catch(error => {
+                        console.log("背景音樂自動播放受限:", error);
+                    });
+                }
+            } else if (pageId === 'page4' || pageId === 'page5') {
+                // 進入歌曲相關頁面，暫停背景音樂（保留進度）
+                bgmElement.pause();
             }
         }
 
@@ -263,7 +281,7 @@
                 document.getElementById('p4-artist').innerText = currentSong.artist;
                 document.getElementById('p5-story').innerText = currentSong.story;
 
-                // 🎵 載入音樂並自動播放
+                // 🎵 載入音樂並自動播放單曲
                 audioElement.src = currentSong.audio;
                 audioElement.play().catch(error => {
                     console.log("自動播放被瀏覽器阻擋或找不到檔案:", error);
