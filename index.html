@@ -224,12 +224,27 @@
     <script>
         // 🎵 歌曲資料庫（包含每首歌對應的 mp3 檔名）
         const songDatabase = [
-            { id: 1, category: 'happy', title: '開心歌曲 1', artist: '歌手 A', story: '聽到這首歌，是不是讓你嘴角不自覺上揚呢？今天也是美好的一天！', audio: 'happy1.mp3' },
-            { id: 2, category: 'happy', title: '開心歌曲 2', artist: '歌手 B', story: '把煩惱都拋開，跟著這個節奏一起搖擺吧！', audio: 'happy2.mp3' },
-            { id: 3, category: 'sad',   title: '難過歌曲 3', artist: '歌手 C', story: '想哭的時候就哭出來吧，這首歌會陪著你慢慢復原。', audio: 'sad1.mp3' },
-            { id: 4, category: 'sad',   title: '難過歌曲 4', artist: '歌手 D', story: '文字無法言說的痛，就讓旋律幫你說出來。內耗也沒關係的。', audio: 'sad2.mp3' },
-            { id: 5, category: 'angry', title: '生氣歌曲 5', artist: '歌手 E', story: '把所有的不爽跟著重低音一起釋放出去吧！', audio: 'angry1.mp3' },
-            { id: 6, category: 'angry', title: '生氣歌曲 6', artist: '歌手 F', story: '撕開那些虛偽，這首歌就是你最強的宣洩出口。', audio: 'angry2.mp3' }
+            { id: 1, category: 'happy', title: '达尔文', artist: '蔡健雅', story: '要天天开心哦--小呆宝', audio: 'happy1.mp3' },
+            { id: 2, category: 'happy', title: '日不落', artist: '蔡依林', story: '天天很棒，不要内耗，快乐勇敢的向前冲，我们一直在--淡然', audio: 'happy2.mp3' },
+            { id: 3, category: 'happy', title: '彩虹', artist: '？', story: '一起冲呀！小晗天天开心呀！--春光', audio: 'happy3.mp3' },
+            { id: 4, category: 'happy', title: '遇见', artist: '孙燕姿', story: '因为遇见天天的那一天我的心情非常糟糕，是天天的声音治愈了我，谢谢天天也谢谢播间的姐姐们--小鱼', audio: 'happy4.mp3' },
+            { id: 5, category: 'happy', title: '情书', artist: '？', story: '镜头下的每一帧都是你存在的痕迹--懵懵嘻嘻', audio: 'happy5.mp3' },
+            { id: 6, category: 'happy', title: '失重旅行', artist: '吴宇恒', story: '叮咚！开启失重旅行，迎接此刻轻盈自由的快乐！--褚橙', audio: 'happy6.mp3' },
+            { id: 7, category: 'happy', title: '超兽武装', artist: '刘罡、陈洁丽', story: '~~~--叮铃铃', audio: 'happy7.mp3' },
+            { id: 8, category: 'happy', title: '小美满', artist: '周深', story: '~~~--小兔', audio: 'happy8.mp3' },
+            { id: 9, category: 'sad',   title: 'coco', artist: '侃迪kandi', story: '小day，我错了还不行嘛，我给你道歉～--宝欣', audio: 'sad1.mp3' },
+            { id: 10, category: 'sad',   title: '我成为我的同时', artist: '十个勤天', story: '希望天天要天天开心，好好吃饭，好好睡觉，不要焦虑，你本身就很好--晚星', audio: 'sad2.mp3' },
+            { id: 11, category: 'sad',   title: '我怀念的', artist: '孙燕姿', story: '起起伏伏本就是常态，当下的委屈和不顺都只是一程。守得住心境，往后自有豁然开朗的时候--落幕', audio: 'sad3.mp3' },
+            { id: 12, category: 'sad',   title: '送你一朵小红花', artist: '赵英俊', story: '别难过啦～给你小红花--一桉', audio: 'sad4.mp3' },
+            { id: 13, category: 'sad',   title: '无赖', artist: '？', story: '不许难过！你要开心开心开心开心--懵懵嘻嘻', audio: 'sad5.mp3' },
+            { id: 14, category: 'sad',   title: '美好陷落', artist: '？', story: '允许自己短暂低落，陷落之后，终会遇见美好--褚橙', audio: 'sad6.mp3' },
+            { id: 15, category: 'sad',   title: '唯一的偏爱', artist: 'en王翊恩', story: '~~~--白白', audio: 'sad7.mp3' },
+            { id: 16, category: 'sad',   title: '开心往前飞', artist: '开心超人主题曲', story: '今天的不开心到此为止吧～明天依旧要开心往前飞！--困困', audio: 'sad8.mp3' },
+            { id: 17, category: 'sad',   title: '不败的英雄', artist: '铠甲勇士刑天主题曲', story: '~~~--叮铃铃', audio: 'sad9.mp3' },
+            { id: 18, category: 'sad',   title: '左手右手', artist: '喜羊羊电影插曲', story: '~~~--叮铃铃', audio: 'sad10.mp3' },
+            { id: 19, category: 'angry', title: '爱久见人心', artist: '梁靜茹', story: '谁惹你生气，我去biubiubiu了他！--懵懵嘻嘻', audio: 'angry1.mp3' },
+            { id: 20, category: 'angry', title: '万物盛开法则', artist: '大张伟', story: '不生气不生气～气坏身体无人替～--困困', audio: 'angry2.mp3' },
+            { id: 21, category: 'angry', title: '猪猪侠', artist: '陈洁丽', story: '~~~--叮铃铃', audio: 'angry3.mp3' }
         ];
 
         let currentSong = null;
